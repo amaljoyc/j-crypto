@@ -25,9 +25,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		JFrame window = new ClassFrame("Encryption");
+		JFrame window = new ClassFrame("j-crypto");
 		window.setVisible(true);
-		window.setTitle("Data Security System");
+		window.setTitle("j-crypto");
 		window.setSize(600, 700);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
