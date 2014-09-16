@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -64,9 +65,11 @@ class ClassFrame extends JFrame {
 
 		JLabel encryptedTextLabel = new JLabel("Encrypted Text", JLabel.TRAILING);
 		encryptedTextArea = new JTextArea(10, 40);
+		encryptedTextArea.setEditable(false);
 		encryptedTextArea.setLineWrap(true);
 		JLabel decryptedTextLabel = new JLabel("Decrypted Text", JLabel.TRAILING);
 		decryptedTextArea = new JTextArea(10, 40);
+		decryptedTextArea.setEditable(false);
 		decryptedTextArea.setLineWrap(true);
 
 		layout.putConstraint(SpringLayout.WEST, keyTextField, 5, SpringLayout.EAST, keyLabel);
@@ -101,6 +104,14 @@ class ClassFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				key = keyTextField.getText();
 				String encryptedText = encryptedTextArea.getText();
+				if (key.equals("")) {
+					showErrorDialog("Enter a valid key");
+					return;
+				}
+				if (encryptedText.equals("")) {
+					showErrorDialog("Perform the encryption of plain text first");
+					return;
+				}
 				String decryptedText = Main.getDecryptionService().decrypt(key, encryptedText);
 				decryptedTextArea.setText(decryptedText);
 			}
@@ -111,9 +122,21 @@ class ClassFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				key = keyTextField.getText();
 				plainText = textArea.getText();
+				if (key.equals("")) {
+					showErrorDialog("Enter a valid key");
+					return;
+				}
+				if (plainText.equals("")) {
+					showErrorDialog("Enter a valid plain text");
+					return;
+				}
 				String encryptedText = Main.getEncryptionService().encrypt(key, plainText);
 				encryptedTextArea.setText(encryptedText);
 			}
 		});
+	}
+
+	private void showErrorDialog(String message) {
+		JOptionPane.showMessageDialog(new JFrame(), message, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 }
